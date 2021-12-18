@@ -16,6 +16,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use("/api/passwords", passwordRoutes);
+
 const __dirname = path.resolve();
 
 if (process.env.NODE_ENV === "production") {
@@ -29,8 +31,6 @@ if (process.env.NODE_ENV === "production") {
     res.send("API is running....");
   });
 }
-
-app.use("/api/passwords", passwordRoutes);
 
 app.use(notFound);
 
