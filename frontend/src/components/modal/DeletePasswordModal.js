@@ -31,7 +31,7 @@ const DeletePasswordModal = ({ history }) => {
       dispatch({ type: PASSWORD_DELETE_RESET });
       navigate("/");
     }
-  }, [dispatch, history, passwordId, password, successDelete]);
+  }, [dispatch, history, navigate, passwordId, password, successDelete]);
 
   if (!open) {
     return <Navigate to='/' />;

@@ -1,52 +1,53 @@
 /** @format */
+
 import React from "react";
-import { Fragment, useState, useRef, useEffect } from "react";
-import { useNavigate, Link, useParams } from "react-router-dom";
-
-//Redux
-import { useDispatch, useSelector } from "react-redux";
-import { createPassword } from "../../actions/passwordActions";
-import { PASSWORD_CREATE_RESET } from "../../constants/passwordConstants";
-
-//Final Form
+import { Fragment, useState, useEffect, useRef } from "react";
 import { Form, Field } from "react-final-form";
 import { Dialog, Transition } from "@headlessui/react";
+
 import { XCircleIcon, EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
+
+import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
+import {
+  listPasswordDetails,
+  updatePassword,
+} from "../../actions/passwordActions";
+import { PASSWORD_UPDATE_RESET } from "../../constants/passwordConstants";
 
 const required = (value) => (value ? undefined : "Required");
 
-const AddPasswordModal = () => {
+const EditPasswordModal = () => {
   const dispatch = useDispatch();
   const passwordId = useParams();
   const navigate = useNavigate();
+
   const [open, setOpen] = useState(true);
 
   const cancelButtonRef = useRef(null);
 
-  const passwordCreate = useSelector((state) => state.passwordCreate);
-  const {
-    // loading: loadingCreate,
-    // error: errorCreate,
-    success: successCreate,
-    password: createdPassword,
-  } = passwordCreate;
   const passwordDetails = useSelector((state) => state.passwordDetails);
   const { password } = passwordDetails;
 
-  useEffect(() => {
-    dispatch({ type: PASSWORD_CREATE_RESET });
-    if (successCreate) {
-      navigate("/");
-    }
-  }, [
-    dispatch,
-    passwordId,
-    password,
-    successCreate,
-    navigate,
-    createdPassword,
-  ]);
+  const passwordUpdate = useSelector((state) => state.passwordUpdate);
+  const { success } = passwordUpdate;
 
+  useEffect(() => {
+    if (success) {
+      dispatch({ type: PASSWORD_UPDATE_RESET });
+      navigate("/passwords");
+    } else {
+      if (!password.name || password._id !== passwordId) {
+        dispatch(listPasswordDetails(passwordId.id));
+      }
+    }
+  }, [dispatch, passwordId, navigate, password, success]);
+  let formData = {
+    url: password.url,
+    username: password.username,
+    sitePassword: password.sitePassword,
+    notes: password.notes,
+  };
   //TOGGLE PASSWORD VISION
   const [passwordShown, setPasswordShown] = useState(false);
   const togglePassword = () => {
@@ -54,12 +55,13 @@ const AddPasswordModal = () => {
   };
 
   if (!open) {
-    navigate("/");
+    return <Navigate to='/' />;
   }
 
   const onSubmit = (values) => {
-    dispatch(createPassword(values));
+    dispatch(updatePassword({ _id: passwordId.id, values }));
   };
+
   return (
     <Fragment>
       <Transition.Root show={open} as={Fragment}>
@@ -100,13 +102,16 @@ const AddPasswordModal = () => {
                 {/* This controls the actual width of modal based on responsive design */}
                 <div className='inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-gray-100 rounded-lg shadow-xl sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6 lg:max-w-5xl'>
                   <div className='px-4 py-5 sm:p-6'>
-                    <h3 className='p-2 space-y-8 text-lg font-medium leading-6 text-gray-800 bg-yellow-500 divide-y divide-gray-200 shadow-lg bg-yellow-500border-2 rounded-t-md sm:space-y-5'>
-                      Add Password
+                    <h3 className='p-2 space-y-8 text-lg font-medium leading-6 text-gray-800 bg-yellow-500 border-2 border-gray-300 divide-y divide-gray-200 shadow-lg rounded-t-md sm:space-y-5'>
+                      Edit Password
                     </h3>
                     <hr />
 
                     <Form
                       onSubmit={onSubmit}
+                      initialValues={{
+                        ...formData,
+                      }}
                       render={({ handleSubmit, submitError }) => (
                         <form onSubmit={handleSubmit}>
                           <div className='p-4 space-y-8 bg-white border-2 border-gray-100 divide-y divide-gray-200 shadow-lg rounded-b-md sm:space-y-5'>
@@ -200,7 +205,7 @@ const AddPasswordModal = () => {
                                 <Field
                                   name='sitePassword'
                                   component='input'
-                                  placeholder='Enter Password'
+                                  placeholder='password.sitePassword'
                                   validate={required}>
                                   {({ input, meta, placeholder }) => (
                                     <div className='col-span-6 sm:col-span-3'>
@@ -282,23 +287,21 @@ const AddPasswordModal = () => {
                               <Field
                                 name='notes'
                                 component='textarea'
-                                placeholder='Notes'
+                                placeholder='Enter Notes Here'
                                 className='box-border block w-full h-32 p-4 px-4 py-2 pl-1 mb-2 border-4 border-gray-300 rounded-md shadow text-l focus:outline-none border-gray focus:border-blue-500'
                               />
                             </div>
                             <div className='pt-5'>
                               <div className='flex justify-end'>
-                                <Link
-                                  to='/passwords'
+                                <button
                                   type='button'
                                   className='px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
                                   Cancel
-                                </Link>
-
+                                </button>
                                 <button
                                   type='submit'
                                   className='inline-flex justify-center px-4 py-2 ml-3 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
-                                  Create
+                                  Update
                                 </button>
                               </div>
                             </div>
@@ -317,4 +320,4 @@ const AddPasswordModal = () => {
   );
 };
 
-export default AddPasswordModal;
+export default EditPasswordModal;

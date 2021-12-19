@@ -34,9 +34,7 @@ const Sidebar = () => {
                 src='https://media.publit.io/file/noun_vault_3097826-2.svg'
                 alt='PassMan'
               />
-              <span className='text-2xl text-gray-500 uppercase '>
-                PassMan{" "}
-              </span>
+              <span className='text-2xl text-gray-500 uppercase '>PassMan</span>
             </div>
             <div className='flex flex-col flex-grow mt-5'>
               <nav className='flex-1 px-2 space-y-1 bg-white'>
@@ -44,8 +42,11 @@ const Sidebar = () => {
                   <NavLink
                     key={item.name}
                     to={item.href}
-                    className='flex items-center px-2 py-2 text-sm font-medium text-gray-600 rounded-md group hover:bg-yellow-100 hover:text-gray-900'
-                    activeClassName='bg-yellow-400'>
+                    className={({ isActive }) =>
+                      isActive
+                        ? "bg-yellow-400 flex items-center px-2 py-2 text-sm font-medium text-gray-600 rounded-md group hover:bg-yellow-100 hover:text-gray-900"
+                        : "flex items-center px-2 py-2 text-sm font-medium text-gray-600 rounded-md group hover:bg-yellow-100 hover:text-gray-900"
+                    }>
                     <item.icon
                       className='flex-shrink-0 w-6 h-6 mr-3'
                       aria-hidden='true'
