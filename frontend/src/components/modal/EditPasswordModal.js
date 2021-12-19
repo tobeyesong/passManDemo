@@ -5,10 +5,11 @@ import { Fragment, useState, useEffect, useRef } from "react";
 import { Form, Field } from "react-final-form";
 import { Dialog, Transition } from "@headlessui/react";
 
+import { ClipboardCheckIcon } from "@heroicons/react/solid";
 import { XCircleIcon, EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
 
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Navigate, useParams, useNavigate } from "react-router-dom";
 import {
   listPasswordDetails,
   updatePassword,
@@ -16,10 +17,16 @@ import {
 import { PASSWORD_UPDATE_RESET } from "../../constants/passwordConstants";
 
 const required = (value) => (value ? undefined : "Required");
+const mustBeNumber = (value) => (isNaN(value) ? "Must be a number" : undefined);
 
-const EditPasswordModal = ({ match, history }) => {
+const EditPasswordModal = ({}) => {
   const dispatch = useDispatch();
-  const passwordId = match.params.id;
+  const passwordId = useParams();
+  const navigate = useNavigate();
+  const [url, setUrl] = useState("");
+  const [username, setUsername] = useState("");
+  const [sitePassword, setSitePassword] = useState("");
+  const [notes, setNotes] = useState("");
 
   const [open, setOpen] = useState(true);
 
@@ -29,18 +36,23 @@ const EditPasswordModal = ({ match, history }) => {
   const { password } = passwordDetails;
 
   const passwordUpdate = useSelector((state) => state.passwordUpdate);
-  const { success } = passwordUpdate;
+  const { success, loading, error } = passwordUpdate;
 
   useEffect(() => {
     if (success) {
       dispatch({ type: PASSWORD_UPDATE_RESET });
-      history.push("/passwords");
+      navigate("/passwords");
     } else {
       if (!password.name || password._id !== passwordId) {
-        dispatch(listPasswordDetails(passwordId));
+        dispatch(listPasswordDetails(passwordId.id));
+      } else {
+        setUrl(password.url);
+        setUsername(password.username);
+        setSitePassword(password.sitePassword);
+        setNotes(password.notes);
       }
     }
-  }, [dispatch, history, passwordId, password, success]);
+  }, [dispatch, passwordId, password, success]);
   let formData = {
     url: password.url,
     username: password.username,
@@ -54,11 +66,11 @@ const EditPasswordModal = ({ match, history }) => {
   };
 
   if (!open) {
-    return <Redirect to='/' />;
+    return <Navigate to='/' />;
   }
 
   const onSubmit = (values) => {
-    dispatch(updatePassword({ _id: passwordId, values }));
+    dispatch(updatePassword({ _id: passwordId.id, values }));
   };
 
   return (

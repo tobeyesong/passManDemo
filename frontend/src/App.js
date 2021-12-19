@@ -1,6 +1,6 @@
 /** @format */
 import React from "react";
-import { Router, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import history from "./history";
 
@@ -25,29 +25,24 @@ class App extends React.Component {
     return (
       <Router history={history}>
         <ToastContainer className='w-4 h-4' autoClose={3500} />
-        <Switch>
-          <Route exact path='/'>
-            <Redirect to='/dashboard' />
-          </Route>
-          <Route exact path='/' component={DashboardScreen} />
-          <Route exact path='/dashboard' component={DashboardScreen} />
-          <Route exact path='/passwords' component={PasswordsScreen} />
-          <Route exact path='/passwords/add' component={AddPasswordModal} />
+        <Routes>
+          {/* <Route path='/'>
+          <Navigate to='/dashboard' />
+        </Route> */}
+          <Route path='/' element={<DashboardScreen />} />
+          <Route path='/dashboard' element={<DashboardScreen />} />
+          <Route path='/passwords' element={<PasswordsScreen />} />
+          <Route path='/passwords/add' element={<AddPasswordModal />} />
           <Route
-            exact
             path='/password/:id/delete'
-            component={DeletePasswordModal}
+            element={<DeletePasswordModal />}
           />
-          <Route
-            exact
-            path='/password/:id/edit'
-            component={EditPasswordModal}
-          />
-          <Route exact path='/add/note' component={AddNoteModal} />
-          <Route exact path='/add/address' component={AddAddressModal} />
-          <Route exact path='/notes' component={NotesScreen} />
-          <Route exact path='/addresses' component={AddressScreen} />
-        </Switch>
+          <Route path='/password/:id/edit' element={<EditPasswordModal />} />
+          <Route path='/add/note' element={<AddNoteModal />} />
+          <Route path='/add/address' element={<AddAddressModal />} />
+          <Route path='/notes' element={<NotesScreen />} />
+          <Route path='/addresses' element={<AddressScreen />} />
+        </Routes>
       </Router>
     );
   }

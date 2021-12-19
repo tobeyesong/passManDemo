@@ -1,7 +1,7 @@
 /** @format */
 
 import { Fragment, useState, useRef } from "react";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 import { Form, Field } from "react-final-form";
 import { Dialog, Transition } from "@headlessui/react";
@@ -15,7 +15,7 @@ const AddNoteModal = () => {
   const cancelButtonRef = useRef(null);
 
   if (!open) {
-    return <Redirect to='/' />;
+    return <Navigate to='/' />;
   }
 
   const onSubmit = (values) => {
@@ -69,7 +69,9 @@ const AddNoteModal = () => {
                     <Form
                       onSubmit={onSubmit}
                       render={({ handleSubmit, submitError }) => (
-                        <form onSubmit={handleSubmit}>
+                        <form
+                          onSubmit={handleSubmit}
+                          enctype='multipart/form-data'>
                           <div className='space-y-6'>
                             <div className='px-4 py-5 bg-white shadow lg:rounded-b-md sm:rounded-b-md sm:p-6'>
                               <div className='md:grid md:grid-cols-3 md:gap-6'>
@@ -141,7 +143,7 @@ const AddNoteModal = () => {
                                             <span>Upload a file</span>
                                             <input
                                               id='file-upload'
-                                              name='file-upload'
+                                              name='noteImage'
                                               type='file'
                                               className='sr-only'
                                             />

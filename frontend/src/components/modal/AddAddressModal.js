@@ -1,7 +1,7 @@
 /** @format */
 
 import { Fragment, useState, useRef } from "react";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 import { Form, Field } from "react-final-form";
 import { Dialog, Transition } from "@headlessui/react";
@@ -20,7 +20,7 @@ const AddAddressModal = () => {
   const cancelButtonRef = useRef(null);
   const [dateValue, onChange] = useState(new Date());
   if (!open) {
-    return <Redirect to='/' />;
+    return <Navigate to='/' />;
   }
 
   const onSubmit = (values) => {
