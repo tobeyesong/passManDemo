@@ -17,20 +17,24 @@ import { PASSWORD_UPDATE_RESET } from "../../constants/passwordConstants";
 
 const required = (value) => (value ? undefined : "Required");
 
-const EditPasswordModal = () => {
+const EditPasswordModal = ({}) => {
   const dispatch = useDispatch();
   const passwordId = useParams();
   const navigate = useNavigate();
 
-  const [open, setOpen] = useState(true);
+  const [setUrl] = useState("");
+  const [setUsername] = useState("");
+  const [setSitePassword] = useState("");
+  const [setNotes] = useState("");
 
+  const [open, setOpen] = useState(true);
   const cancelButtonRef = useRef(null);
 
   const passwordDetails = useSelector((state) => state.passwordDetails);
   const { password } = passwordDetails;
 
   const passwordUpdate = useSelector((state) => state.passwordUpdate);
-  const { success } = passwordUpdate;
+  const { success, loading, error } = passwordUpdate;
 
   useEffect(() => {
     if (success) {
@@ -38,10 +42,15 @@ const EditPasswordModal = () => {
       navigate("/passwords");
     } else {
       if (!password.name || password._id !== passwordId) {
-        dispatch(listPasswordDetails(passwordId));
+        dispatch(listPasswordDetails(passwordId.id));
+      } else {
+        setUrl(password.url);
+        setUsername(password.username);
+        setSitePassword(password.sitePassword);
+        setNotes(password.notes);
       }
     }
-  }, [dispatch, navigate, passwordId, password, success]);
+  }, [dispatch, passwordId, password, success]);
   let formData = {
     url: password.url,
     username: password.username,
