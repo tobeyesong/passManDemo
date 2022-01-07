@@ -24,7 +24,7 @@ class App extends React.Component {
   render() {
     return (
       <Router history={history}>
-        <ToastContainer className='w-4 h-4' autoClose={3500} />
+        <ToastContainer className='' autoClose={3500} />
         <Routes>
           {/* <Route path='/'>
           <Navigate to='/dashboard' />
