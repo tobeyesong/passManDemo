@@ -12,7 +12,7 @@ const DashboardScreen = () => {
   return (
     <div className='relative flex flex-1 h-screen overflow-hidden bg-gray-100'>
       <Sidebar />
-      <div className='flex flex-col flex-1 w-0 overflow-hidden'>
+      <div className='flex flex-col flex-1 w-0 overflow-auto'>
         <SearchBar />
 
         <PasswordContent title='Passwords' />
