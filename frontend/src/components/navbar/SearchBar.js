@@ -4,14 +4,12 @@ import React from "react";
 import { Fragment, useState } from "react";
 import {
   BellIcon,
-  CalendarIcon,
-  ChartBarIcon,
-  FolderIcon,
   HomeIcon,
-  InboxIcon,
   MenuAlt2Icon,
-  UsersIcon,
   XIcon,
+  MapIcon,
+  FingerPrintIcon,
+  PaperClipIcon,
 } from "@heroicons/react/outline";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { SearchIcon } from "@heroicons/react/solid";
