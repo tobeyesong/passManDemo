@@ -10,6 +10,8 @@ object-assign
   http://jedwatson.github.io/classnames
 */
 
+/*! algoliasearch.umd.js | 4.13.0 | © Algolia, inc. | https://github.com/algolia/algoliasearch-client-javascript */
+
 /**
  * React Router DOM v6.2.1
  *

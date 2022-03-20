@@ -1,54 +1,62 @@
 /** @format */
 
-import { Fragment, useState, useRef, useEffect } from "react";
-
-//Final Form
+import React from "react";
+import { Fragment, useState, useEffect, useRef } from "react";
 import { Form, Field } from "react-final-form";
 import { Dialog, Transition } from "@headlessui/react";
+
 import { XCircleIcon } from "@heroicons/react/solid";
 
-//Redux
 import { useDispatch, useSelector } from "react-redux";
-import { createNote } from "../../actions/noteActions";
-import { NOTE_CREATE_RESET } from "../../constants/noteConstants";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { Navigate, useParams, useNavigate } from "react-router-dom";
+import { listNoteDetails, updateNote } from "../../actions/noteActions";
+import { NOTE_UPDATE_RESET } from "../../constants/noteConstants";
 
 const required = (value) => (value ? undefined : "Required");
 
-const AddNoteModal = () => {
+const EditNoteModal = () => {
   const dispatch = useDispatch();
   const noteId = useParams();
   const navigate = useNavigate();
-  const [open, setOpen] = useState(true);
 
+  // const [setTitle] = useState("");
+  // const [setImage] = useState("");
+  // const [setCaption] = useState("");
+
+  const [open, setOpen] = useState(true);
   const cancelButtonRef = useRef(null);
 
-  const noteCreate = useSelector((state) => state.noteCreate);
-
-  const {
-    // loading: loadingCreate,
-    // error: errorCreate,
-    success: successNoteCreate,
-    note: createdNote,
-  } = noteCreate;
   const noteDetails = useSelector((state) => state.noteDetails);
   const { note } = noteDetails;
 
+  const noteUpdate = useSelector((state) => state.noteUpdate);
+  const { success } = noteUpdate;
+
   useEffect(() => {
-    dispatch({ type: NOTE_CREATE_RESET });
-    // console.log(user._id);
-    if (successNoteCreate) {
-      navigate("/dashboard");
+    if (success) {
+      dispatch({ type: NOTE_UPDATE_RESET });
+      navigate("/notes");
+    } else {
+      if (!note.name || note._id !== noteId) {
+        dispatch(listNoteDetails(noteId.id));
+      } else {
+      }
     }
-  }, [dispatch, noteId, note, successNoteCreate, navigate, createdNote]);
+  }, [dispatch, noteId, note, success, navigate]);
+  let formData = {
+    title: note.title,
+    caption: note.caption,
+    image: note.image,
+  };
 
   if (!open) {
-    navigate("/");
+    return <Navigate to='/' />;
   }
 
   const onSubmit = (values) => {
-    dispatch(createNote(values));
+    dispatch(updateNote({ _id: noteId.id, values }));
   };
+
   return (
     <Fragment>
       <Transition.Root show={open} as={Fragment}>
@@ -89,13 +97,16 @@ const AddNoteModal = () => {
                 {/* This controls the actual width of modal based on responsive design */}
                 <div className='inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-gray-100 rounded-lg shadow-xl sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6 lg:max-w-5xl'>
                   <div className='px-4 py-5 sm:p-6'>
-                    <h3 className='p-2 space-y-8 text-lg font-medium leading-6 text-gray-800 bg-yellow-500 border-gray-300 divide-y divide-gray-200 shadow-sm border-3 rounded-t-md sm:space-y-5'>
-                      Add a Secure Note
+                    <h3 className='p-2 space-y-8 text-lg font-medium leading-6 text-gray-800 bg-yellow-500 border-2 border-gray-300 divide-y divide-gray-200 shadow-lg rounded-t-md sm:space-y-5'>
+                      Edit Password
                     </h3>
                     <hr />
 
                     <Form
                       onSubmit={onSubmit}
+                      initialValues={{
+                        ...formData,
+                      }}
                       render={({ handleSubmit, submitError }) => (
                         <form onSubmit={handleSubmit}>
                           <div className='space-y-6'>
@@ -197,15 +208,14 @@ const AddNoteModal = () => {
                               </div>
                               <hr />
                               <div className='flex justify-end pt-5'>
-                                <Link
-                                  to='/notes'
+                                <button
                                   type='button'
-                                  className='px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'>
+                                  className='px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
                                   Cancel
-                                </Link>
+                                </button>
                                 <button
                                   type='submit'
-                                  className='inline-flex justify-center px-4 py-2 ml-3 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
+                                  className='inline-flex justify-center px-4 py-2 ml-3 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
                                   Save
                                 </button>
                               </div>
@@ -225,4 +235,4 @@ const AddNoteModal = () => {
   );
 };
 
-export default AddNoteModal;
+export default EditNoteModal;

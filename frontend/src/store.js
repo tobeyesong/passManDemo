@@ -11,12 +11,25 @@ import {
   passwordUpdateReducer,
 } from "./reducers/passwordReducers";
 
+import {
+  noteListReducer,
+  noteCreateReducer,
+  noteDetailsReducer,
+  noteDeleteReducer,
+  noteUpdateReducer,
+} from "./reducers/noteReducers";
+
 const reducer = combineReducers({
   passwordList: passwordListReducer,
   passwordCreate: passwordCreateReducer,
   passwordDetails: passwordDetailsReducer,
   passwordDelete: passwordDeleteReducer,
   passwordUpdate: passwordUpdateReducer,
+  noteList: noteListReducer,
+  noteCreate: noteCreateReducer,
+  noteDetails: noteDetailsReducer,
+  noteDelete: noteDeleteReducer,
+  noteUpdate: noteUpdateReducer,
 });
 
 const initialState = {};

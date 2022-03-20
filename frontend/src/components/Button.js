@@ -8,7 +8,7 @@ import { PlusSmIcon as PlusSmIconOutline } from "@heroicons/react/outline";
 import { Popover, Transition } from "@headlessui/react";
 
 import {
-  MapIcon,
+  // MapIcon,
   FingerPrintIcon,
   PaperClipIcon,
 } from "@heroicons/react/outline";
@@ -24,11 +24,11 @@ const solutions = [
     link: "/add/note",
     icon: PaperClipIcon,
   },
-  {
-    name: "Add Addresses",
-    link: "/add/address",
-    icon: MapIcon,
-  },
+  // {
+  //   name: "Add Addresses",
+  //   link: "/add/address",
+  //   icon: MapIcon,
+  // },
 ];
 
 function classNames(...classes) {
@@ -61,13 +61,13 @@ const Button = () => {
             leaveTo='opacity-0 translate-y-1'>
             <Popover.Panel className='absolute bottom-0 right-0 z-40 pb-4 pr-4 '>
               <div className='overflow-hidden rounded-lg shadow-lg'>
-                <div className='relative grid gap-6 px-5 py-6 bg-white sm:gap-8 sm:p-8'>
+                <div className='relative grid gap-6 px-5 py-6 bg-white sm:gap-8 sm:p-8 '>
                   {solutions.map((item) => (
                     <Link
                       key={item.name}
                       to={item.link}
                       type='button'
-                      className='flex items-start p-2 -m-3 transition duration-150 ease-in-out rounded-lg '>
+                      className='flex items-start p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-orange-300'>
                       <item.icon
                         className='flex-shrink-0 w-6 h-6 text-blue-600'
                         aria-hidden='true'

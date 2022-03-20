@@ -3,7 +3,7 @@
 import React from "react";
 import {
   HomeIcon,
-  MapIcon,
+  // MapIcon,
   FingerPrintIcon,
   PaperClipIcon,
 } from "@heroicons/react/outline";
@@ -17,7 +17,7 @@ const navigation = [
     icon: FingerPrintIcon,
   },
   { name: "Notes", href: "/notes", icon: PaperClipIcon },
-  { name: "Addresses", href: "/addresses", icon: MapIcon },
+  // { name: "Addresses", href: "/addresses", icon: MapIcon },
 ];
 
 const Sidebar = () => {

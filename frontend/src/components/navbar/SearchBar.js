@@ -2,12 +2,12 @@
 
 import React from "react";
 import { Fragment, useState } from "react";
+import { Link } from "react-router-dom";
 import {
-  BellIcon,
   HomeIcon,
   MenuAlt2Icon,
   XIcon,
-  MapIcon,
+  // MapIcon,
   FingerPrintIcon,
   PaperClipIcon,
 } from "@heroicons/react/outline";
@@ -16,7 +16,6 @@ import { SearchIcon } from "@heroicons/react/solid";
 import Button from "../Button";
 
 const userNavigation = [
-  { name: "Your Profile", href: "#" },
   { name: "Settings", href: "#" },
   { name: "Sign out", href: "#" },
 ];
@@ -29,7 +28,7 @@ const navigation = [
     icon: FingerPrintIcon,
   },
   { name: "Notes", href: "/notes", icon: PaperClipIcon },
-  { name: "Addresses", href: "/addresses", icon: MapIcon },
+  // { name: "Addresses", href: "/addresses", icon: MapIcon },
 ];
 
 function classNames(...classes) {
@@ -84,10 +83,13 @@ const SearchBar = () => {
               </Transition.Child>
               <div className='flex items-center flex-shrink-0 px-4'>
                 <img
-                  className='w-auto h-8'
-                  src='https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-800-text.svg'
-                  alt='Workflow'
+                  className='w-auto h-10 transition-all hover:animate-spin'
+                  src='https://media.publit.io/file/noun_vault_3097826-2.svg'
+                  alt='PassMan'
                 />
+                <span className='text-2xl text-gray-500 uppercase '>
+                  PassMan
+                </span>
               </div>
               <div className='flex-1 h-0 mt-5 overflow-y-auto'>
                 <nav className='px-2 space-y-1'>
@@ -131,33 +133,28 @@ const SearchBar = () => {
           <MenuAlt2Icon className='w-6 h-6' aria-hidden='true' />
         </button>
         <div className='flex justify-between flex-1 px-4'>
-          <div className='flex flex-1'>
-            <form className='flex w-full md:ml-0' action='#' method='GET'>
-              <label htmlFor='search-field' className='sr-only'>
-                Search
-              </label>
-              <div className='relative w-full text-gray-400 focus-within:text-gray-600'>
-                <div className='absolute inset-y-0 left-0 flex items-center pointer-events-none'>
-                  <SearchIcon className='w-5 h-5' aria-hidden='true' />
+          <div className='flex items-center flex-1'>
+            <Link to='/search' className='w-full cursor-text'>
+              <form className='flex w-full md:ml-0' action='#' method='GET'>
+                <label htmlFor='search-field' className='sr-only'>
+                  Search
+                </label>
+                <div className='relative w-full text-gray-400 focus-within:text-gray-600'>
+                  <div className='absolute inset-y-0 left-0 flex items-center pointer-events-none'>
+                    <SearchIcon className='w-5 h-5' aria-hidden='true' />
+                  </div>
+                  <input
+                    id='search-field'
+                    className='block py-2 pl-8 pr-3 text-gray-900 placeholder-gray-500 border-transparent focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-transparent sm:text-sm'
+                    placeholder='Search'
+                    type='search'
+                    name='search'
+                  />
                 </div>
-                <input
-                  id='search-field'
-                  className='block w-full h-full py-2 pl-8 pr-3 text-gray-900 placeholder-gray-500 border-transparent focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-transparent sm:text-sm'
-                  placeholder='Search'
-                  type='search'
-                  name='search'
-                />
-              </div>
-            </form>
+              </form>
+            </Link>
           </div>
           <div className='flex items-center ml-4 md:ml-6'>
-            <button
-              type='button'
-              className='p-1 text-gray-400 bg-white rounded-full hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
-              <span className='sr-only'>View notifications</span>
-              <BellIcon className='w-6 h-6' aria-hidden='true' />
-            </button>
-
             {/* Profile dropdown */}
             <Menu as='div' className='relative ml-3'>
               <div>

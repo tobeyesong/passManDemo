@@ -6,7 +6,7 @@ import SearchBar from "../navbar/SearchBar";
 
 import PasswordContent from "../content/PasswordContent";
 import NoteContent from "../content/NoteContent";
-import AddressContent from "../content/AddressContent";
+// import AddressContent from "../content/AddressContent";
 
 const DashboardScreen = () => {
   return (
@@ -17,7 +17,7 @@ const DashboardScreen = () => {
 
         <PasswordContent title='Passwords' />
         <NoteContent title='Notes' />
-        <AddressContent title='Addresses' />
+        {/* <AddressContent title='Addresses' /> */}
       </div>
     </div>
   );

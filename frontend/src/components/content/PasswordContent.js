@@ -8,8 +8,10 @@ import {
   PencilIcon,
   ChevronDoubleUpIcon,
 } from "@heroicons/react/outline";
-import Loader from "../Loader";
+import Loader from "../loader/Loader";
 import { listPasswords } from "../../actions/passwordActions";
+
+import PasswordState from "../emptyState/passwordState";
 
 //Toastify
 import { ToastContainer } from "react-toastify";
@@ -38,8 +40,9 @@ const PasswordContent = (props) => {
                   <Loader />
                 ) : error ? (
                   <h3 className='animate-pulse'>{error}</h3>
+                ) : passwords.length === 0 ? (
+                  <PasswordState />
                 ) : (
-                  // {passwords !== null ? <Fragment> </Fragment>  : <Fragment> </Fragment>}
                   <Fragment>
                     <ul className='grid grid-cols-1 gap-5 mt-3 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4 group'>
                       {passwords.map((password) => (
