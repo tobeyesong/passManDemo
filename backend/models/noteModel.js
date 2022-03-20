@@ -3,9 +3,22 @@
 import mongoose from "mongoose";
 
 const noteSchema = mongoose.Schema({
-  name: {
+  title: {
     type: String,
     required: true,
+  },
+  caption: {
+    type: String,
+    required: false,
+  },
+  image: {
+    type: String,
+    required: false,
+  },
+  category: {
+    type: String,
+    required: true,
+    default: "Note",
   },
 });
 

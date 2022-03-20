@@ -6,6 +6,7 @@ import connectDB from "./config/db.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 
 import passwordRoutes from "./routes/passwordRoutes.js";
+import noteRoutes from "./routes/noteRoutes.js";
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ const app = express();
 app.use(express.json());
 
 app.use("/api/passwords", passwordRoutes);
+app.use("/api/notes", noteRoutes);
 
 const __dirname = path.resolve();
 
