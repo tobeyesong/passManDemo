@@ -12,6 +12,8 @@ import { PASSWORD_CREATE_RESET } from "../../constants/passwordConstants";
 import { Form, Field } from "react-final-form";
 import { Dialog, Transition } from "@headlessui/react";
 import { XCircleIcon, EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
+import { OnChange } from "../forms/OnChange";
+import PasswordMeter from "../misc/PasswordMeter";
 
 const required = (value) => (value ? undefined : "Required");
 
@@ -19,8 +21,8 @@ const AddPasswordModal = () => {
   const dispatch = useDispatch();
   const passwordId = useParams();
   const navigate = useNavigate();
+  const [target, setTarget] = useState("");
   const [open, setOpen] = useState(true);
-
   const cancelButtonRef = useRef(null);
 
   const passwordCreate = useSelector((state) => state.passwordCreate);
@@ -60,6 +62,7 @@ const AddPasswordModal = () => {
   const onSubmit = (values) => {
     dispatch(createPassword(values));
   };
+
   return (
     <Fragment>
       <Transition.Root show={open} as={Fragment}>
@@ -107,7 +110,7 @@ const AddPasswordModal = () => {
 
                     <Form
                       onSubmit={onSubmit}
-                      render={({ handleSubmit, submitError }) => (
+                      render={({ handleSubmit, submitError, values }) => (
                         <form onSubmit={handleSubmit}>
                           <div className='p-4 space-y-8 bg-white border-2 border-gray-100 divide-y divide-gray-200 shadow-lg rounded-b-md sm:space-y-5'>
                             <div>
@@ -256,10 +259,14 @@ const AddPasswordModal = () => {
                                           </div>
                                         </div>
                                       )}
+                                      <PasswordMeter target={target} />
                                     </div>
                                   )}
                                 </Field>
-
+                                <OnChange
+                                  name='sitePassword'
+                                  onChange={(val, preval) => setTarget(val)}
+                                />
                                 {submitError && (
                                   <div className='p-1 mt-1 mb-2 transition duration-500 ease-in-out rounded-md bg-red-50'>
                                     <div className='flex'>

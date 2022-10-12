@@ -24,10 +24,14 @@
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
     "faker": "^5.5.3",
+    "final-form": "^4.20.7",
     "jsonwebtoken": "^8.5.1",
     "md5": "^2.3.0",
     "mongoose": "^5.13.3",
-    "uuid": "^8.3.2"
+    "react-final-form": "^6.5.9",
+    "react-final-form-listeners": "^1.0.3",
+    "uuid": "^8.3.2",
+    "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
     "concurrently": "^6.2.0",
