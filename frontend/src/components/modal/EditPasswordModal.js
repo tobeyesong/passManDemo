@@ -8,7 +8,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XCircleIcon, EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
 
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useParams, useNavigate } from "react-router-dom";
+import { Navigate, useParams, useNavigate, Link } from "react-router-dom";
 import {
   listPasswordDetails,
   updatePassword,
@@ -293,11 +293,12 @@ const EditPasswordModal = () => {
                             </div>
                             <div className='pt-5'>
                               <div className='flex justify-end'>
-                                <button
+                                <Link
+                                  to='/passwords'
                                   type='button'
                                   className='px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
                                   Cancel
-                                </button>
+                                </Link>
                                 <button
                                   type='submit'
                                   className='inline-flex justify-center px-4 py-2 ml-3 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
