@@ -21,7 +21,7 @@ const getPasswordById = asyncHandler(async (req, res) => {
     res.json(password);
   } else {
     res.status(404);
-    throw new Error("Password not found");
+    throw new Error("Password not found by GET.");
   }
 });
 
@@ -58,7 +58,7 @@ const updatePassword = asyncHandler(async (req, res) => {
     res.json(updatedPassword);
   } else {
     res.status(404);
-    throw new Error("Password not found");
+    throw new Error("Password not found by UPDATE.");
   }
 });
 // @desc    Delete a password
@@ -71,7 +71,7 @@ const deletePassword = asyncHandler(async (req, res) => {
     res.json({ message: "Password removed" });
   } else {
     res.status(404);
-    throw new Error("Password not found");
+    throw new Error("Password not found by DELETE.");
   }
 });
 

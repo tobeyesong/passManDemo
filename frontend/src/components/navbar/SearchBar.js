@@ -11,14 +11,9 @@ import {
   FingerPrintIcon,
   PaperClipIcon,
 } from "@heroicons/react/outline";
-import { Dialog, Menu, Transition } from "@headlessui/react";
+import { Dialog, Transition } from "@headlessui/react";
 import { SearchIcon } from "@heroicons/react/solid";
 import Button from "../Button";
-
-const userNavigation = [
-  { name: "Settings", href: "#" },
-  { name: "Sign out", href: "#" },
-];
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: HomeIcon },
@@ -153,46 +148,6 @@ const SearchBar = () => {
                 </div>
               </form>
             </Link>
-          </div>
-          <div className='flex items-center ml-4 md:ml-6'>
-            {/* Profile dropdown */}
-            <Menu as='div' className='relative ml-3'>
-              <div>
-                <Menu.Button className='flex items-center max-w-xs text-sm bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
-                  <span className='sr-only'>Open user menu</span>
-                  <img
-                    className='w-8 h-8 rounded-full'
-                    src='https://images.unsplash.com/photo-1598013924228-f336656b163c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1746&q=80&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-                    alt=''
-                  />
-                </Menu.Button>
-              </div>
-              <Transition
-                as={Fragment}
-                enter='transition ease-out duration-100'
-                enterFrom='transform opacity-0 scale-95'
-                enterTo='transform opacity-100 scale-100'
-                leave='transition ease-in duration-75'
-                leaveFrom='transform opacity-100 scale-100'
-                leaveTo='transform opacity-0 scale-95'>
-                <Menu.Items className='absolute right-0 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
-                  {userNavigation.map((item) => (
-                    <Menu.Item key={item.name}>
-                      {({ active }) => (
-                        <a
-                          href={item.href}
-                          className={classNames(
-                            active ? "bg-gray-100" : "",
-                            "block px-4 py-2 text-sm text-gray-700"
-                          )}>
-                          {item.name}
-                        </a>
-                      )}
-                    </Menu.Item>
-                  ))}
-                </Menu.Items>
-              </Transition>
-            </Menu>
           </div>
         </div>
       </div>

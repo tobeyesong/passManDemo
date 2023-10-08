@@ -1,6 +1,7 @@
 /** @format */
 
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { FingerPrintIcon } from "@heroicons/react/outline";
 const passwordState = () => {
@@ -29,7 +30,8 @@ const passwordState = () => {
             Get started by creating a new Password.
           </p>
           <div className='mt-6'>
-            <button
+            <Link
+              to='/passwords/add'
               type='button'
               className='inline-flex items-center px-4 py-2 text-sm font-medium text-white transition-colors ease-in-out delay-75 transform bg-yellow-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
               <FingerPrintIcon
@@ -37,7 +39,7 @@ const passwordState = () => {
                 aria-hidden='true'
               />
               New Password
-            </button>
+            </Link>
           </div>
         </div>
         <div className='relative'>

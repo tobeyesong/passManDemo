@@ -12,15 +12,14 @@ import {
   ChevronDoubleUpIcon,
   ArrowNarrowLeftIcon,
 } from "@heroicons/react/outline";
-//algoliasearch
 import algoliasearch from "algoliasearch";
 import { InstantSearch, SearchBox, Hits, Index } from "react-instantsearch-dom";
 import axios from "axios";
 import Title from "../misc/Title";
 
 const searchClient = algoliasearch(
-  "51L3TF5D2J",
-  "07b0d27bbe4fa6321f738856d02293fd"
+  "BC38Z1AKHU",
+  "802e2ce9797af17219da6526ac4502ba"
 );
 const passwordIndex = searchClient.initIndex("passwordDemo");
 const noteIndex = searchClient.initIndex("noteDemo");
@@ -28,45 +27,61 @@ const noteIndex = searchClient.initIndex("noteDemo");
 const SearchScreen = () => {
   const [passwords, setPasswords] = useState([]);
   const [notes, setNotes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  //Retreive Passwords from API
   useEffect(() => {
-    const fetchPasswords = async () => {
-      const { data } = await axios.get("/api/passwords");
-      data.forEach((password) => {
-        password.objectID = password._id;
-        delete password._id;
-      });
-      setPasswords(data);
+    setLoading(true);
+    const fetchData = async () => {
+      try {
+        const [passwordResponse, noteResponse] = await Promise.all([
+          axios.get("/api/passwords"),
+          axios.get("/api/notes"),
+        ]);
+        const passwordData = passwordResponse.data.map((password) => {
+          return { ...password, objectID: password._id };
+        });
+        const noteData = noteResponse.data.map((note) => {
+          return { ...note, objectID: note._id };
+        });
+        setPasswords(passwordData);
+        setNotes(noteData);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching data: ", err);
+        setError(err.message);
+        setLoading(false);
+      }
     };
-    fetchPasswords();
+    fetchData();
   }, []);
 
-  //Record Password in Algolia Index
-  passwordIndex.saveObjects(passwords);
-
-  //Retreive Notes from API
   useEffect(() => {
-    const fetchNotes = async () => {
-      const { data } = await axios.get("/api/notes");
-      data.forEach((note) => {
-        note.objectID = note._id;
-        delete note._id;
-      });
-      setNotes(data);
-    };
-    fetchNotes();
-  }, []);
+    if (passwords.length > 0) {
+      passwordIndex
+        .saveObjects(passwords)
+        .then(() => console.log("Passwords indexed successfully"))
+        .catch((err) => console.error("Error indexing passwords: ", err));
+    }
+  }, [passwords]);
 
-  //Record Note in Algolia Index
-  noteIndex.saveObjects(notes);
+  useEffect(() => {
+    if (notes.length > 0) {
+      noteIndex
+        .saveObjects(notes)
+        .then(() => console.log("Notes indexed successfully"))
+        .catch((err) => console.error("Error indexing notes: ", err));
+    }
+  }, [notes]);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className='relative flex flex-1 h-screen overflow-hidden bg-gray-100'>
       <Sidebar />
-
       <div className='flex flex-col flex-1 w-0 overflow-auto'>
-        <InstantSearch indexName='passwordsMERN' searchClient={searchClient}>
+        <InstantSearch indexName='passwordDemo' searchClient={searchClient}>
           <div className='app'>
             <div className=''>
               <div className='flex'>
@@ -86,7 +101,6 @@ const SearchScreen = () => {
                   }}
                 />
               </div>
-
               <div className='px-4 mx-auto max-w-7xl sm:px-6 lg:px-8'>
                 <div className='max-w-5xl mx-auto'>
                   <Title title='Passwords' />
@@ -122,7 +136,6 @@ function allPasswords({ hit }) {
             }}
             className='flex items-center flex-shrink-0 object-contain text-sm font-medium text-white shadow-sm w-14 rounded-l-md'
           />
-
           <div className='flex flex-row-reverse items-center flex-1 truncate bg-white border-t border-b border-r border-gray-200 rounded-r-md'>
             <div className='flex-1 px-4 py-2 text-sm truncate'>
               <a
@@ -175,9 +188,8 @@ function allNotes({ hit }) {
           <img
             alt='logo'
             src='https://media.publit.io/file/noun-triangle.svg'
-            className='flex items-center flex-shrink-0 object-contain text-sm font-medium text-white shadow-sm w-14 rounded-l-md' //media.publit.io/file/triangle/orangeTriangle.svg","
+            className='flex items-center flex-shrink-0 object-contain text-sm font-medium text-white shadow-sm w-14 rounded-l-md'
           />
-
           <div className='flex flex-row-reverse items-center flex-1 truncate bg-white border-t border-b border-r border-blue-200 rounded-r-md'>
             <div className='flex-1 px-4 py-2 text-sm truncate'>
               {hit.title}
