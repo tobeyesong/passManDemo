@@ -3,6 +3,16 @@
 import asyncHandler from "express-async-handler";
 import Password from "../models/passwordModel.js";
 
+// Importing the necessary library
+import algoliasearch from "algoliasearch";
+
+// Your Algolia setup
+const searchClient = algoliasearch(
+  "BC38Z1AKHU",
+  "802e2ce9797af17219da6526ac4502ba"
+);
+const passwordIndex = searchClient.initIndex("passwordDemo");
+
 // Fetch all passwords
 // GET /api/passwords
 // private
@@ -55,6 +65,16 @@ const updatePassword = asyncHandler(async (req, res) => {
     password.sitePassword = sitePassword;
     password.notes = notes;
     const updatedPassword = await password.save();
+
+    // Update the password in the Algolia index
+    await passwordIndex.partialUpdateObject({
+      objectID: updatedPassword._id.toString(),
+      url: updatedPassword.url,
+      username: updatedPassword.username,
+      sitePassword: updatedPassword.sitePassword,
+      notes: updatedPassword.notes,
+    });
+
     res.json(updatedPassword);
   } else {
     res.status(404);

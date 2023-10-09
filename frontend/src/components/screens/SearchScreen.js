@@ -5,6 +5,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Sidebar from "../navbar/Sidebar";
+import Loader from "../Loader";
 
 import {
   TrashIcon,
@@ -74,7 +75,34 @@ const SearchScreen = () => {
     }
   }, [notes]);
 
-  if (loading) return <div>Loading...</div>;
+  //Replace all objects in the index - Slow method at scale
+  // useEffect(() => {
+  //   if (passwords.length > 0) {
+  //     passwordIndex
+  //       .replaceAllObjects(passwords)
+  //       .then(() => console.log("Passwords re-indexed successfully"))
+  //       .catch((err) => console.error("Error re-indexing passwords: ", err));
+  //   }
+  // }, [passwords]);
+
+  // useEffect(() => {
+  //   if (notes.length > 0) {
+  //     noteIndex
+  //       .replaceAllObjects(notes)
+  //       .then(() => console.log("Notes re-indexed successfully"))
+  //       .catch((err) => console.error("Error re-indexing notes: ", err));
+  //   }
+  // }, [notes]);
+  if (loading)
+    return (
+      <main className='relative flex-1 overflow-y-auto focus:outline-none'>
+        <div className='py-6'>
+          <div className='px-4 mx-auto max-w-7xl sm:px-6 md:px-8'>
+            <Loader />
+          </div>
+        </div>
+      </main>
+    );
   if (error) return <div>Error: {error}</div>;
 
   return (
