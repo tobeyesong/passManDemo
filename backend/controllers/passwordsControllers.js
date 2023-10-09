@@ -81,6 +81,7 @@ const updatePassword = asyncHandler(async (req, res) => {
     throw new Error("Password not found by UPDATE.");
   }
 });
+
 // @desc    Delete a password
 // @route   DELETE /api/password/:id
 // @access
@@ -88,7 +89,17 @@ const deletePassword = asyncHandler(async (req, res) => {
   const password = await Password.findById(req.params.id);
   if (password) {
     await password.remove();
-    res.json({ message: "Password removed" });
+
+    // Delete the corresponding index from Algolia
+    try {
+      await passwordIndex.deleteObject(req.params.id);
+      res.json({ message: "Password and corresponding Algolia index removed" });
+    } catch (algoliaError) {
+      res.status(500).json({
+        message: "Password removed, but failed to delete Algolia index",
+        error: algoliaError.message,
+      });
+    }
   } else {
     res.status(404);
     throw new Error("Password not found by DELETE.");

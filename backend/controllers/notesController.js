@@ -92,7 +92,17 @@ const deleteNote = asyncHandler(async (req, res) => {
   const note = await Note.findById(req.params.id);
   if (note) {
     await note.remove();
-    res.json({ message: "Note removed" });
+
+    // Delete the corresponding index from Algolia
+    try {
+      await noteIndex.deleteObject(req.params.id);
+      res.json({ message: "Note and corresponding Algolia index removed" });
+    } catch (algoliaError) {
+      res.status(500).json({
+        message: "Note removed, but failed to delete Algolia index",
+        error: algoliaError.message,
+      });
+    }
   } else {
     res.status(404);
     throw new Error("Note not found");
