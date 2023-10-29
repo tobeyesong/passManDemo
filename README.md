@@ -11,6 +11,7 @@ Utilizes the `zxcvbn` library to gauge password strength. Users receive feedback
 - [View Code](https://github.com/tobeyesong/passmandemo/blob/master/frontend/src/components/misc/PasswordMeter.js)
 ---
 
+![alt text](https://imgur.com/MxFGAKb)
 
 ## 2. Notes Management
 
