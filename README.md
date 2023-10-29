@@ -36,3 +36,4 @@ Integrates with Algolia for efficient indexing and searching of notes and passwo
 
 - [View Code for Passwords](https://github.com/tobeyesong/passmandemo/blob/master/backend/controllers/passwordsControllers.js)
 - [View Code for Notes](https://github.com/tobeyesong/passmandemo/blob/master/backend/controllers/notesController.js)
+![image](https://github.com/tobeyesong/passmandemo/assets/65470881/b80ef2b0-9de8-438f-a13e-22fc017f47a0)
