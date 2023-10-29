@@ -9,7 +9,7 @@
 Utilizes the `zxcvbn` library to gauge password strength. Users receive feedback labels: "UNSTEADY", "FEEBLE", "ACCEPTABLE", or "EXCEPTIONAL".  Additionally, a colored progress bar visually represents the strength score.
 
 - [View Code](https://github.com/tobeyesong/passmandemo/blob/master/frontend/src/components/misc/PasswordMeter.js)
-
+<iframe src="https://giphy.com/embed/WLzA1g9bqx0AE2Lc4a" width="480" height="268" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/WLzA1g9bqx0AE2Lc4a">via GIPHY</a></p>
 ---
 
 ## 2. Notes Management
